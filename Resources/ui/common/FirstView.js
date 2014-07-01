@@ -69,7 +69,7 @@ function FirstView() {
 	picker.addEventListener('change',function(e){
 	 //alert("User selected date: " + e.value.toLocaleString());
 	  mifecha =  e.value;
-	 return mifecha;
+	  return mifecha;
 	});
 	
 	var crearbloque= Ti.UI.createLabel({
@@ -115,6 +115,7 @@ function FirstView() {
 	btnIngreso.addEventListener('click',function(){
 		
 		btnIngreso.backgroundColor='#ffffff';
+		alert(mifecha);
 	});
 	scroll.add(logo);
 	scroll.add(texto1);
