@@ -30,8 +30,7 @@
                 <array>
                     <string>UIInterfaceOrientationPortrait</string>
                     <string>UIInterfaceOrientationPortraitUpsideDown</string>
-                    <string>UIInterfaceOrientationLandscapeLeft</string>
-                    <string>UIInterfaceOrientationLandscapeRight</string>
+                    
                 </array>
                 <key>UIRequiresPersistentWiFi</key>
                 <false/>
@@ -44,7 +43,24 @@
             </dict>
         </plist>
     </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    
+     <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest>
+            <application>
+                    <activity
+                        android:name=".LeeriosityActivity"
+                        android:label="Leeriosity"
+                        android:theme="@style/Theme.Titanium"
+                        android:configChanges="keyboardHidden|orientation"
+                        android:screenOrientation="portrait">
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
+                    </activity>
+            </application>
+        </manifest>
+    </android>
     <mobileweb>
         <precache/>
         <splash>
