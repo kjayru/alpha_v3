@@ -105,11 +105,11 @@ function FirstView() {
 	var btnIngreso = Ti.UI.createLabel({
 		top: 470,
 		width:200,
-		height:60,
+		height:40,
 		backgroundColor:'#37ade2',
 		zIndex:7,
-		text:'Ingresar',
-		color:'#000000',
+		text:'INGRESAR',
+		color:'#ffffff',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 	});
 	
@@ -233,6 +233,10 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 
 		}	
 	});
+
+
+
+
 	scroll.add(logo);
 	scroll.add(texto1);
 	scroll.add(monstrito);
@@ -246,7 +250,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 	self.add(scroll);
 	self.add(activityIndicator);
    
-	
+
 	//Add behavior for UI
 
 	return self;

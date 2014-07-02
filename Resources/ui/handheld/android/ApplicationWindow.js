@@ -7,7 +7,9 @@ function ApplicationWindow() {
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#ffffff',
 		navBarHidden:true,
-		exitOnClose:true
+		exitOnClose:true,
+		 orientationModes: [Ti.UI.PORTRAIT],
+        fullscreen: false
 	});
 
 	//construct UI

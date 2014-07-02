@@ -7,7 +7,8 @@ function bienvenido(){
 	});
 	var self = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo.jpg",
-		fullscreen: true
+		fullscreen:false,
+		orientationModes: [Ti.UI.PORTRAIT]
 	});	
 	var monstrito = Ti.UI.createView({
 		backgroundImage:"/assets/mons4.png",
@@ -22,7 +23,7 @@ function bienvenido(){
 		backgroundImage:"/assets/mons2.png",
 		zIndex:10,
 		right:0,
-		top:375,
+		top:365,
 		width:103,
 		height:143,
 		zIndex:11
@@ -58,25 +59,69 @@ function bienvenido(){
 	var btnIngreso = Ti.UI.createLabel({
 		top: 320,
 		width:200,
-		height:60,
+		height:40,
 		backgroundColor:'#37ade2',
 		zIndex:14,
-		text:'Comenzar',
-		color:'#000000',
+		text:'COMENZAR',
+		color:'#ffffff',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 	});
 	
 	var textTerminos = Ti.UI.createLabel({
-		top:380,
-		width:200,
+		top:355,
+		width:"100%",
 		height:40,
 		color:'#000000',
 		text:'Términos y Condiciones',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
-		zIndex:8,
-		left:20
+		zIndex:14
 	});
-	
+///// footer botones
+  var barraFoot = Ti.UI.createView({
+  	  backgroundColor:"#003f88",
+  	  width:"100%",
+  	  height:40,
+  	  bottom:0,
+  	  zIndex:100
+  });
+  
+  btnIngreso.addEventListener('click',function(){
+  	var Preguntas = require('/ui/common/preguntas');
+  		preguntas = new Preguntas();
+  		preguntas.open();
+  	
+  });
+  
+  btnPuntaje = Ti.UI.createButton({
+  	title:'PUNTAJE',
+  	backgroundColor:"#003f88",
+  	left:5,
+  	width:150,
+  	height: 40,
+  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+  	color:'#ffffff',
+  	zIndex:101,
+  	bottom:0,
+  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  	
+  });
+   btnSalir = Ti.UI.createButton({
+  	title:'SALIR',
+  	backgroundColor:"#003f88",
+  	right:5,
+  	width:150,
+  	height: 40,
+  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER                                                                                   ,
+  	color:'#ffffff',
+  	zIndex:102,
+  	bottom:0,
+  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  });
+  
+  
+  
+  self.add(btnPuntaje);
+  self.add(btnSalir);
 	 scrolls.add(logo);
 	 scrolls.add(titulo);
 	 scrolls.add(textTerminos);
@@ -85,6 +130,7 @@ function bienvenido(){
 	 scrolls.add(monstrito3);
 	  scrolls.add(btnIngreso);
 	 self.add(scrolls);
+	 self.add(barraFoot);
 	 return self;
 }
 module.exports = bienvenido;
