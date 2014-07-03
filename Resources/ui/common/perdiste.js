@@ -3,14 +3,16 @@ function ganaste(){
 		var scroll = Ti.UI.createScrollView({
 		top:1,
 		width:"95%",
-		height:"100%"
+		height:"100%",
+		scrollType:'vertical'
 	});
 	
 	var self = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo2.png",
 		zIndex:1,
 		fullscreen:false,
-		orientationModes: [Ti.UI.PORTRAIT]
+		orientationModes: [Ti.UI.PORTRAIT],
+		exitOnClose:true
 	});
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
@@ -77,6 +79,24 @@ function ganaste(){
   	  bottom:0,
   	  zIndex:100
   });
+  
+  var btnFacebook = Ti.UI.createButton({
+		backgroundImage:'/assets/facebook.png',
+		width:40,
+		height:40,
+		bottom:5,
+		left:80,
+		zIndex:20
+	});
+	
+	var btnTwitter= Ti.UI.createButton({
+		backgroundImage:'/assets/twitter.png',
+		width:40,
+		height:40,
+		bottom:5,
+		right:80,
+		zIndex:21
+	});
   
  
   

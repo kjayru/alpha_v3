@@ -5,7 +5,8 @@ function FirstView() {
 	var scroll = Ti.UI.createScrollView({
 		top:1,
 		width:"95%",
-		height:"100%"
+		height:"100%",
+		scrollType:'vertical'
 	});
 	
 	var self = Ti.UI.createView({

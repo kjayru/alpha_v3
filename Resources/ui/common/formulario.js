@@ -2,14 +2,16 @@ function formulario(){
 		var scroll = Ti.UI.createScrollView({
 		top:1,
 		width:"95%",
-		height:"100%"
+		height:"100%",
+		scrollType:'vertical'
 	});
 	
 	var self = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo2.png",
 		zIndex:1,
 		fullscreen:false,
-		orientationModes: [Ti.UI.PORTRAIT]
+		orientationModes: [Ti.UI.PORTRAIT],
+		exitOnClose:true
 	});
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
@@ -37,13 +39,14 @@ function formulario(){
 		height:40
 	});
 	var titulo = Ti.UI.createLabel({
-		text:'Regístrate en "Desafío Alpha"',
+		//text:'Regístrate en /n "Desafío Alpha"',
+		html:'Regístrate en <br> "Desafío Alpha"',
 		backgroundColor:'#103242',
 		color:'#ffffff',
 		top:95,
 		width:220,
-		height:50,
-		font:{fontSize:23, fontWeight:'bold'},
+		height:60,
+		font:{fontSize:20, fontWeight:'bold'},
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 	});
 	var lblNombre = Ti.UI.createLabel({
@@ -100,14 +103,17 @@ function formulario(){
 		backgroundColor:'#37ade2',
 		zIndex:7,
 		title:'REGISTRATE',
-		color:'#ffffff'
+		color:'#ffffff',
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		
 	});
 	
 	var btnTerminos = Ti.UI.createSwitch({
-  	value:true,
-  	top: 365,
-  	left:65
+	  	value:true,
+	  	top: 365,
+	  	left:65
 	});
 	
 	var lblTermino = Ti.UI.createLabel({
@@ -120,6 +126,14 @@ function formulario(){
 		color:'#000000'
 		
 	});
+	
+	
+	btnRegistro.addEventListener('click',function(){
+		var Gracias = require('/ui/common/gracias');
+			gracias = new Gracias();
+			gracias.open();
+	});
+	
 	self.add(scroll);
 	scroll.add(btnTerminos);
 	scroll.add(logo);

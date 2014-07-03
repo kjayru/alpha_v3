@@ -3,12 +3,14 @@ function bienvenido(){
 	var scrolls = Ti.UI.createScrollView({
 		top:1,
 		width:"95%",
-		height:"100%"
+		height:"100%",
+		scrollType:'vertical'
 	});
 	var self = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo.jpg",
 		fullscreen:false,
-		orientationModes: [Ti.UI.PORTRAIT]
+		orientationModes: [Ti.UI.PORTRAIT],
+		exitOnClose:true
 	});	
 	var monstrito = Ti.UI.createView({
 		backgroundImage:"/assets/mons4.png",

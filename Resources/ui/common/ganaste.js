@@ -3,14 +3,16 @@ function ganaste(){
 		var scroll = Ti.UI.createScrollView({
 		top:1,
 		width:"95%",
-		height:"100%"
+		height:"100%",
+		scrollType:'vertical'
 	});
 	
 	var self = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo2.png",
 		zIndex:1,
 		 orientationModes: [Ti.UI.PORTRAIT],
-        fullscreen: false
+        fullscreen: false,
+        exitOnClose:true
 	});
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",

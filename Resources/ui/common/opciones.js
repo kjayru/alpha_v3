@@ -4,14 +4,16 @@ function opciones() {
 	var scroll = Ti.UI.createScrollView({
 		top:1,
 		width:"95%",
-		height:"100%"
+		height:"100%",
+		scrollType:'vertical'
 	});
 	
 	var self = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo2.png",
 		zIndex:1,
 		fullscreen:false,
-		orientationModes: [Ti.UI.PORTRAIT]
+		orientationModes: [Ti.UI.PORTRAIT],
+		exitOnClose:true
 	});
 	
 	var monstrito= Ti.UI.createView({
