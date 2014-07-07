@@ -13,7 +13,8 @@ function gracias(){
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true
+		exitOnClose:true,
+		navBarHidden:true
 		
 	});
 	var logoFooter = Ti.UI.createView({
@@ -146,6 +147,24 @@ function gracias(){
   			preguntas.open();
   		
   });
+  
+   
+ btnPuntaje.addEventListener('click',function(){
+ 	var alertPuntaje = Ti.UI.createAlertDialog({
+ 		title:'Puntos Ganados',
+ 		message:"Tienes 10 puntos acomulados",
+ 		buttonNames:['Ok']
+ 	});
+ 	alertPuntaje.show();
+ 	return false;
+ });
+ 
+ 
+ btnSalir.addEventListener('click',function(){
+ 	 var activity = Titanium.Android.currentActivity;
+        activity.finish();
+ }); 
+  
   
     contexto.add(texto1);
     contexto.add(btnFacebook);

@@ -11,7 +11,8 @@ function preguntas(){
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true
+		exitOnClose:true,
+		navBarHidden:true
 	});
 	
 	var monstrito= Ti.UI.createView({
@@ -62,7 +63,36 @@ function preguntas(){
 		right:5,
 		top:2
 	});
-	
+
+////EXTRAEMOS LA PREGUNTAS PARA EL NIVEL GENERADO
+	var url = "http://productosalpha.com.pe/webservice/preguntas.php";
+	 	 var params = {
+		'categoria' :Titanium.API.nivel,
+		'idmobile'  :Ti.Platform.id
+	   };
+	 	 var client = Ti.Network.createHTTPClient({ 
+	 	 	 onload : function(e) {
+		        var getdata = JSON.parse(this.responseText);	
+		        Titanium.API.id=getdata.id;	 
+		        id =  Titanium.API.id;    
+///CARGA DE PREGUNTA Y OPCIONES		        
+		        var tasks = [
+			    {id: '1',value:'a', name: 'Imposible necesitaria una maquinaria altamente avanzado para recliclar una .'},
+			    {id: '1', value:'b', name: 'Imposible necesitaria una maquinaria altamente .'},
+			    {id: '1', value:'c', name: 'Imposible necesitaria una maquinaria altamente avanzado para recliclar una botella de plastico.'}
+				];
+				var data = [];
+
+		    },
+		     onerror : function(e) {
+		         Ti.API.debug("Perdiste Conexión a internet");
+		         alert('error'+e);
+		     }	
+	 	 });
+  	
+  	 client.open("POST", url);
+	client.send(params);  
+		
 	
 	var lblTexto = Ti.UI.createLabel({
 		
@@ -83,31 +113,7 @@ function preguntas(){
 		height:Ti.UI.SIZE
 		
 	});
-	var btnPregunta1 = Ti.UI.createLabel({
-		width:200,
-		height:Ti.UI.SIZE,
-		backgroundColor:'#103242',
-		right:30,
-		top:0,
-		text:'Imposible necesitaria una maquinaria altamente avanzado para recliclar una botella de plastico.'
-	});
-	 var btnPregunta2 = Ti.UI.createLabel({
-		width:200,
-		height:Ti.UI.SIZE,
-		backgroundColor:'#103242',
-		right:30,
-		verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
-		text:'Imposible necesitaria una maquinaria altamente avanzado para recliclar una botella de plastico.'
-	});
 	
-	var btnPregunta3 = Ti.UI.createLabel({
-		width:200,
-		height:Ti.UI.SIZE,
-		backgroundColor:'#103242',
-		right:30,
-		bottom:0,
-		text:'Imposible necesitaria una maquinaria altamente avanzado para recliclar una botella de plastico.'
-	});
 	var contenedor = Ti.UI.createView({
 		width:290,
 		top:168,
@@ -124,12 +130,7 @@ var listView = Ti.UI.createListView({
 	right:40,
 	width:200
 });
-var tasks = [
-    {id: '1',value:'a', name: 'Imposible necesitaria una maquinaria altamente avanzado para recliclar una .'},
-    {id: '1', value:'b', name: 'Imposible necesitaria una maquinaria altamente .'},
-    {id: '1', value:'c', name: 'Imposible necesitaria una maquinaria altamente avanzado para recliclar una botella de plastico.'}
-	];
-var data = [];
+
 for (var i = 0; i < tasks.length; i++) {
     data.push(
         { properties: {
@@ -150,9 +151,10 @@ listView.sections = [section];
 listView.addEventListener('itemclick', function(e){
 	
     var item = section.getItemAt(e.itemIndex);
-   Titanium.API.itemId=item.properties.itemId;
-   Titanium.API.value=item.properties.value;
+    Titanium.API.itemId=item.properties.itemId;
+    Titanium.API.value=item.properties.value;
     section.updateItemAt(e.itemIndex, item);
+    
     var Ganaste = require('/ui/common/ganaste');
     ganaste = new Ganaste();
     ganaste.open();

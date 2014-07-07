@@ -11,7 +11,8 @@ function formulario(){
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true
+		exitOnClose:true,
+		navBarHidden:true
 	});
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
@@ -111,7 +112,7 @@ function formulario(){
 	});
 	
 	var btnTerminos = Ti.UI.createSwitch({
-	  	value:true,
+	  	value:false,
 	  	top: 365,
 	  	left:65
 	});

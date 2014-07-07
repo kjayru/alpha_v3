@@ -70,7 +70,11 @@ function ganaste(){
 		zIndex:14,
 		title:'Siguiente Desafio',
 		color:'#ffffff',
-		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		backgroundFocusedColor:'#000',
+		backgroundDisabledColor:'#ff0000'
 	});
 	 var barraFoot = Ti.UI.createView({
   	  backgroundColor:"#003f88",
@@ -126,6 +130,22 @@ function ganaste(){
   	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
   });
   
+   
+ btnPuntaje.addEventListener('click',function(){
+ 	var alertPuntaje = Ti.UI.createAlertDialog({
+ 		title:'Puntos Ganados',
+ 		message:"Tienes 10 puntos acomulados",
+ 		buttonNames:['Ok']
+ 	});
+ 	alertPuntaje.show();
+ 	return false;
+ });
+ 
+ 
+ btnSalir.addEventListener('click',function(){
+ 	 var activity = Titanium.Android.currentActivity;
+        activity.finish();
+ }); 
   
   
   self.add(btnPuntaje);

@@ -10,7 +10,8 @@ function bienvenido(){
 		backgroundImage:"/assets/fondo.jpg",
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true
+		exitOnClose:true,
+		navBarHidden:true
 	});	
 	var monstrito = Ti.UI.createView({
 		backgroundImage:"/assets/mons4.png",
@@ -66,7 +67,11 @@ function bienvenido(){
 		zIndex:14,
 		text:'COMENZAR',
 		color:'#ffffff',
-		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		backgroundFocusedColor:'#000',
+		backgroundDisabledColor:'#ff0000'
 	});
 	
 	var textTerminos = Ti.UI.createLabel({
@@ -86,12 +91,38 @@ function bienvenido(){
   	  bottom:0,
   	  zIndex:100
   });
+ ///precargador
+ 	var style;
+if (Ti.Platform.name === 'android'){
   
+  style = Ti.UI.ActivityIndicatorStyle.DARK;
+}
+else {
+ style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK; 
+}	
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: 'black',
+  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
+  message: 'Abriendo...',
+  style:style,
+   backgroundColor : '#000000',
+     height:"100%",
+  width:"100%",
+    color : 'white',
+    padding : 10,
+    opacity : 0.87,
+    top : 0,
+    borderRadius : 0,
+    borderColor : 'black',
+    borderWidth : 1
+});
+
+ 
   btnIngreso.addEventListener('click',function(){
-  	var Preguntas = require('/ui/common/preguntas');
+  
+   	var Preguntas = require('/ui/common/preguntas');
   		preguntas = new Preguntas();
   		preguntas.open();
-  	
   });
   
   btnPuntaje = Ti.UI.createButton({
@@ -120,17 +151,32 @@ function bienvenido(){
   	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
   });
   
+ 
+ btnPuntaje.addEventListener('click',function(){
+ 	var alertPuntaje = Ti.UI.createAlertDialog({
+ 		title:'Puntos Ganados',
+ 		message:"Tienes 10 puntos acomulados",
+ 		buttonNames:['Ok']
+ 	});
+ 	alertPuntaje.show();
+ 	return false;
+ });
+ 
+ 
+ btnSalir.addEventListener('click',function(){
+ 	 var activity = Titanium.Android.currentActivity;
+        activity.finish();
+ }); 
   
-  
-  self.add(btnPuntaje);
-  self.add(btnSalir);
+     self.add(btnPuntaje);
+     self.add(btnSalir);
 	 scrolls.add(logo);
 	 scrolls.add(titulo);
 	 scrolls.add(textTerminos);
 	 scrolls.add(monstrito);
 	 scrolls.add(monstrito2);
 	 scrolls.add(monstrito3);
-	  scrolls.add(btnIngreso);
+	 scrolls.add(btnIngreso);
 	 self.add(scrolls);
 	 self.add(barraFoot);
 	 return self;

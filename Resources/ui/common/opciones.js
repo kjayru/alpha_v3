@@ -13,7 +13,8 @@ function opciones() {
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true
+		exitOnClose:true,
+		navBarHidden:true
 	});
 	
 	var monstrito= Ti.UI.createView({
@@ -87,7 +88,12 @@ function opciones() {
 		backgroundColor:'#37ade2',
 		zIndex:7,
 		title:'CONTINUAR',
-		color:'#ffffff'
+		color:'#ffffff',
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		backgroundFocusedColor:'#000',
+		backgroundDisabledColor:'#ff0000'
 		
 	});
 	

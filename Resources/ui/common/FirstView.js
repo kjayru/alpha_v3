@@ -83,14 +83,16 @@ function FirstView() {
 	
 	picker.addEventListener('change',function(e){
 	 //alert("User selected date: " + e.value.toLocaleString());
-	  mifecha =  e.value;
+	   mifecha =  e.value;
 	   var d = new Date(e.value);
 	
 		   year = d.getFullYear();
+		   month = parseInt(d.getMonth())+1;
+		   day = d.getDate();
 		  
 		
-		 Titanium.API.mifecha = e.value.toLocaleString();
-		 Titanium.API.year = year;
+		//Titanium.API.mifecha = e.value.toLocaleString();
+		 Titanium.API.year = year+"-"+month+"-"+day;
 	});
 	
 	var crearbloque= Ti.UI.createLabel({
@@ -103,15 +105,19 @@ function FirstView() {
 		 
 	});
 	
-	var btnIngreso = Ti.UI.createLabel({
+	var btnIngreso = Ti.UI.createButton({
 		top: 470,
 		width:200,
 		height:40,
 		backgroundColor:'#37ade2',
 		zIndex:7,
-		text:'INGRESAR',
+		title:'INGRESAR',
 		color:'#ffffff',
-		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		backgroundFocusedColor:'#000',
+		backgroundDisabledColor:'#ff0000'
 	});
 	
 	var textTerminos = Ti.UI.createLabel({
@@ -155,13 +161,13 @@ var activityIndicator = Ti.UI.createActivityIndicator({
   message: 'Abriendo...',
   style:style,
    backgroundColor : '#000000',
-     height:"300",
-  width:"300",
+     height:"100%",
+  width:"100%",
     color : 'white',
     padding : 10,
     opacity : 0.87,
-    top : "20%",
-    borderRadius : 8,
+    top : 0,
+    borderRadius : 0,
     borderColor : 'black',
     borderWidth : 1
 });
@@ -171,7 +177,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 
 	btnIngreso.addEventListener('click',function(){
 		
-		btnIngreso.backgroundColor='#ffffff';
+		
 		if(!Titanium.API.year){
 			var alertDialog = Titanium.UI.createAlertDialog({
 				    title: 'Información',
@@ -182,52 +188,34 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 				alertDialog.show();
 			return false;
 		}else{	
-		var url='http://mediacontacts-app.com/__beta/webservice/json.leves.php';
+		var url='http://productosalpha.com.pe/webservice/preregistro.php';
 	
 		var params = {
-		'datos2':Titanium.API.mifecha,
+		//'datos2':Titanium.API.mifecha,
 		'idmobile':Ti.Platform.id,
 		'year': Titanium.API.year
 	   };
 		var sendfecha = Ti.Network.createHTTPClient();
 		 
-		 sendfecha.onload = function(e){	
-		
-				if(this.status==200){
-										
+		 sendfecha.onload = function(e){			
+				if(this.status==200){										
 				var myData = JSON.parse(this.responseText);
                   	Titanium.API.nivel = myData.level;	
-                
                     var bienvenido = require('/ui/common/bienvenido'),
 						abienvenida = new bienvenido();		    			     				     	 					
-						abienvenida.open();
-						
-							
-				}else{
-					alert("cargar preloader 2");
+						abienvenida.open();	
 				}									 
 			};
 		sendfecha.onerror =  function(e){			
 				Ti.API.debug(e.error);
 				alert('error '+e.error);
 		};
-		
 		  sendfecha.onreadystatechange  = function(e) {
-        
             if(sendfecha.readyState==4){
-            	
-            	
-            	
             	activityIndicator.hide();
             }else{
-            	
-           
-          
-			
-			activityIndicator.show();
-           
+			activityIndicator.show();           
             }
-        
     };
      	 sendfecha.open("POST",url);
   	    sendfecha.send(params);
