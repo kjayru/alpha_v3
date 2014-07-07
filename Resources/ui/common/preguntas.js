@@ -95,7 +95,6 @@ function preguntas(){
 		
 	
 	var lblTexto = Ti.UI.createLabel({
-		
 		width:'270',
 		left:5,
 		top:5,
