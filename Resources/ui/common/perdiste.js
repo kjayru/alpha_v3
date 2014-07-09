@@ -1,4 +1,4 @@
-function ganaste(){
+function perdiste(){
 	
 		var scroll = Ti.UI.createScrollView({
 		top:1,
@@ -63,11 +63,11 @@ function ganaste(){
 		
 	});
 	var btnRegistro = Ti.UI.createButton({
-		top: 390,
-		width:200,
+		top: 430,
+		width:250,
 		height:40,
 		backgroundColor:'#37ade2',
-		zIndex:14,
+		zIndex:13,
 		title:'Siguiente Desafio',
 		color:'#ffffff',
 		font:{fontFamily:'Minecrafter_3',fontSize:14},
@@ -76,6 +76,22 @@ function ganaste(){
 		backgroundFocusedColor:'#000',
 		backgroundDisabledColor:'#ff0000'
 	});
+	
+	var btnIntento = Ti.UI.createButton({
+		top: 380,
+		width:250,
+		height:40,
+		backgroundColor:'#37ade2',
+		zIndex:13,
+		title:'Vuelve a Intentarlo',
+		color:'#ffffff',
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		backgroundFocusedColor:'#000',
+		backgroundDisabledColor:'#ff0000'
+	});
+	
 	 var barraFoot = Ti.UI.createView({
   	  backgroundColor:"#003f88",
   	  width:"100%",
@@ -147,12 +163,22 @@ function ganaste(){
         activity.finish();
  }); 
   
+  btnIntento.addEventListener('android:back',function(){
+  	Ti.UI.currentWindow.close();
+  	
+  });
   
-  self.add(btnPuntaje);
-  self.add(btnSalir);
-  self.add(barraFoot);
+btnRegistro.addEventListener('click',function(){
+	var Preguntas = require('/ui/common/preguntas');
+  		preguntas = new Preguntas();
+  		preguntas.open();
+});
+    self.add(btnPuntaje);
+    self.add(btnSalir);
+    self.add(barraFoot);
 	self.add(scroll);
 	scroll.add(btnRegistro);
+	scroll.add(btnIntento);
 	scroll.add(logoFooter);
 	scroll.add(boca);
 	scroll.add(contexto);
@@ -160,4 +186,4 @@ function ganaste(){
 	scroll.add(logoBottom);
 	return self;
 };
-module.exports = ganaste;
+module.exports = perdiste;

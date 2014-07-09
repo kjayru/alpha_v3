@@ -72,18 +72,87 @@ function preguntas(){
 	   };
 	 	 var client = Ti.Network.createHTTPClient({ 
 	 	 	 onload : function(e) {
-		        var getdata = JSON.parse(this.responseText);	
-		        Titanium.API.id=getdata.id;	 
-		        id =  Titanium.API.id;    
-///CARGA DE PREGUNTA Y OPCIONES		        
-		        var tasks = [
-			    {id: '1',value:'a', name: 'Imposible necesitaria una maquinaria altamente avanzado para recliclar una .'},
-			    {id: '1', value:'b', name: 'Imposible necesitaria una maquinaria altamente .'},
-			    {id: '1', value:'c', name: 'Imposible necesitaria una maquinaria altamente avanzado para recliclar una botella de plastico.'}
-				];
-				var data = [];
+								        var getdata = JSON.parse(this.responseText);	
+								        
+								        //Titanium.API.id=getdata.id;	 
+								        //id =  Titanium.API.id;    
+						///CARGA DE PREGUNTA Y OPCIONES	
+			        
+								        var tasks = [
+									    {id: getdata.id,value:getdata.opciones[0].value, name: getdata.opciones[0].opcion1,rpta:getdata.activo},
+									    {id: getdata.id,value:getdata.opciones[1].value, name: getdata.opciones[1].opcion2,rpta:getdata.activo},
+									    {id: getdata.id,value:getdata.opciones[2].value, name:getdata.opciones[2].opcion3,rpta:getdata.activo}
+										];
+										var data = [];
+						   Titanium.API.info(tasks.length);
+							for (var i = 0; i < tasks.length; i++) {
+							    data.push(
+							        { properties: {
+							            itemId: tasks[i].id,
+							            title: tasks[i].name,
+							            value: tasks[i].value,
+							            rpta: tasks[i].rpta,
+							            color: 'white',
+							            backgroundColor:'#103242',
+							            bottom:15,
+							            width:'100%',
+							            right:0
+							        }
+							    });
+							} 
+							
+							var listView = Ti.UI.createListView({
+								top:190,
+								right:40,
+								width:200
+						    });
+						    
+							var section = Ti.UI.createListSection();
+							section.setItems(data);
+							listView.sections = [section];
+						   
+						    
+						listView.addEventListener('itemclick', function(e){
+							
+							
+					    var item = section.getItemAt(e.itemIndex);
 
-		    },
+					    Titanium.API.itemId=item.properties.itemId;
+					    Titanium.API.value=item.properties.value;
+					    section.updateItemAt(e.itemIndex, item);
+					  if(item.properties.rpta===item.properties.value){   
+					    var Ganaste = require('/ui/common/ganaste');
+					    ganaste = new Ganaste();
+					    ganaste.open();
+					   }else{
+					   	var Perdiste = require('/ui/common/perdiste');
+					   	perdiste = new Perdiste();
+					   	perdiste .open();
+					   }
+					});
+					
+						var lblItem = Ti.UI.createView({
+							backgroundColor:'#76b2d3',
+							width:'270',
+							top:55,
+							left:40,
+							height:Ti.UI.SIZE
+							
+						});
+			         var lblTexto = Ti.UI.createLabel({
+							width:'270',
+							left:5,
+							top:5,
+							bottom:5,
+							right:5,	
+							text:getdata.pregunta,
+							color:'#343a36'
+							
+						});
+			    lblItem.add(lblTexto);
+			    scroll.add(lblItem);
+			    scroll.add(listView);
+},
 		     onerror : function(e) {
 		         Ti.API.debug("Perdiste Conexión a internet");
 		         alert('error'+e);
@@ -94,87 +163,23 @@ function preguntas(){
 	client.send(params);  
 		
 	
-	var lblTexto = Ti.UI.createLabel({
-		width:'270',
-		left:5,
-		top:5,
-		bottom:5,
-		right:5,	
-		text:"Lateas tranquilo por la calle y de pronto una botella de plastico salvaje ¿Podrias reciclarlo solo, sin ayuda? Lateas tranquilo por la calle y de pronto una botella de plastico salvaje ¿Podrias reciclarlo solo, sin ayuda? ",
-		color:'#343a36'
-		
-	});
-	var lblItem = Ti.UI.createView({
-		backgroundColor:'#76b2d3',
-		width:'270',
-		top:55,
-		left:40,
-		height:Ti.UI.SIZE
-		
-	});
+
+
 	
 	var contenedor = Ti.UI.createView({
 		width:290,
 		top:168,
 		height:400,
-		right:0,
-		
+		right:0,	
 		zIndex:16
 	});
-	
-	
-	
-var listView = Ti.UI.createListView({
-	top:190,
-	right:40,
-	width:200
-});
 
-for (var i = 0; i < tasks.length; i++) {
-    data.push(
-        { properties: {
-            itemId: tasks[i].id,
-            title: tasks[i].name,
-            value: tasks[i].value,
-            color: 'white',
-            backgroundColor:'#103242',
-            bottom:15,
-            width:'100%',
-            right:0
-        }
-    });
-}
-var section = Ti.UI.createListSection();
-section.setItems(data);
-listView.sections = [section];
-listView.addEventListener('itemclick', function(e){
-	
-    var item = section.getItemAt(e.itemIndex);
-    Titanium.API.itemId=item.properties.itemId;
-    Titanium.API.value=item.properties.value;
-    section.updateItemAt(e.itemIndex, item);
-    
-    var Ganaste = require('/ui/common/ganaste');
-    ganaste = new Ganaste();
-    ganaste.open();
-});
-scroll.add(listView);
-	
-	
-	
-	
-	
-lblItem.add(lblTexto);
   scroll.add(monstrito);
-  
   scroll.add(logoFooter);
   scroll.add(logoBottom);
-  scroll.add(lblItem);
   self.add(scroll);
   self.add(contador);
   self.add(lblContador);
-
-  
   return self;
 }
 module.exports = preguntas;
