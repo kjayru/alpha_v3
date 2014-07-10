@@ -88,7 +88,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
     borderColor : 'black',
     borderWidth : 1
 });
-
+activityIndicator.show();
 ////EXTRAEMOS LA PREGUNTAS PARA EL NIVEL GENERADO
 	var uri = "http://productosalpha.com.pe/webservice/preguntas.php";
 	 	 var parametros = {
@@ -97,29 +97,32 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 	   };
 	 	 var clientes = Ti.Network.createHTTPClient({ 
 	 	 	 onload : function(e) {
-	 	 	 		activityIndicator.show();
+	 	 	 		
 	 	 	 	 if(this.status==200){
 	 	 	 	 	activityIndicator.hide();
 								        var getdata = JSON.parse(this.responseText);		        
 								        var tasks = [
-									    {id: getdata.id,value:getdata.opciones[0].value, name: getdata.opciones[0].opcion1,rpta:getdata.activo},
-									    {id: getdata.id,value:getdata.opciones[1].value, name: getdata.opciones[1].opcion2,rpta:getdata.activo},
-									    {id: getdata.id,value:getdata.opciones[2].value, name:getdata.opciones[2].opcion3,rpta:getdata.activo}
+									    {id: getdata.id,imagen:getdata.imagen,correcto:getdata.correcta,incorrecto:getdata.incorrecta,value:getdata.opciones[0].value, name: getdata.opciones[0].opcion1,rpta:getdata.activo},
+									    {id: getdata.id,imagen:getdata.imagen,correcto:getdata.correcta,incorrecto:getdata.incorrecta,value:getdata.opciones[1].value, name: getdata.opciones[1].opcion2,rpta:getdata.activo},
+									    {id: getdata.id,imagen:getdata.imagen,correcto:getdata.correcta,incorrecto:getdata.incorrecta,value:getdata.opciones[2].value, name:getdata.opciones[2].opcion3,rpta:getdata.activo}
 										];
 										var data = [];
 						   Titanium.API.info(tasks.length);
 							for (var i = 0; i < tasks.length; i++) {
 							    data.push(
 							        { properties: {
-							            itemId: tasks[i].id,
-							            title: tasks[i].name,
-							            value: tasks[i].value,
-							            rpta: tasks[i].rpta,
-							            color: 'white',
+							            itemId    : tasks[i].id,
+							            title     : tasks[i].name,
+							            value     : tasks[i].value,
+							            rpta      : tasks[i].rpta,
+							            correcta  : tasks[i].correcto,
+							            incorrecta: tasks[i].incorrecto,
+							            imagen	  : tasks[i].imagen,
+							            color     : 'white',
 							            backgroundColor:'#103242',
-							            bottom:15,
-							            width:'100%',
-							            right:0
+							            bottom    :15,
+							            width     :'100%',
+							            right     :0
 							        }
 							    });
 							} 
@@ -140,8 +143,12 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 							
 					    var item = section.getItemAt(e.itemIndex);
 						
-					    Titanium.API.itemId=item.properties.itemId;
-					    Titanium.API.value=item.properties.value;
+					    Titanium.API.itemId     = item.properties.itemId;
+					    Titanium.API.value      = item.properties.value;
+					    Titanium.API.correcta   = item.properties.correcta;
+					    Titanium.API.incorrecta = item.properties.incorrecta;
+					    Titanium.API.imagen     = item.properties.imagen;
+					    
 					    section.updateItemAt(e.itemIndex, item);
 					  if(item.properties.rpta===item.properties.value){  
 					 
@@ -154,8 +161,14 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 								};
 								 var client2 = Ti.Network.createHTTPClient({
 								 	onload:function(e){
-										// var getdata = this.responseText;
-										
+										 var getdata = JSON.parse(this.responseText);
+										  if(getdata.registro=="no"){
+										  	 Titanium.API.registrate =false;
+										  }else{
+										  	Titanium.API.registrate =true;
+										  }
+										  
+										  
 										    if(this.status==200){
 									     	activityIndicator.hide();
 									     		var Ganaste = require('/ui/common/ganaste');

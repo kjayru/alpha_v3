@@ -149,16 +149,27 @@ function gracias(){
   });
   
    
- btnPuntaje.addEventListener('click',function(){
- 	var alertPuntaje = Ti.UI.createAlertDialog({
+btnPuntaje.addEventListener('click',function(){
+ 
+  var xurl = "http://productosalpha.com.pe/webservice/puntos.php";
+   var envios = ({
+   	'idmobile':Ti.Platform.id
+   });
+  var misPuntos = Ti.Network.createHTTPClient({
+  	onload: function(e){
+  		data = JSON.parse(this.responseText);
+  		var alertPuntaje = Ti.UI.createAlertDialog({
  		title:'Puntos Ganados',
- 		message:"Tienes 10 puntos acomulados",
+ 		message:"Tienes "+ data.puntos +" puntos acomulados",
  		buttonNames:['Ok']
  	});
  	alertPuntaje.show();
  	return false;
+  	}
+  });
+  misPuntos.open("POST",xurl);
+  misPuntos.send(envios);
  });
- 
  
  btnSalir.addEventListener('click',function(){
  	 var activity = Titanium.Android.currentActivity;

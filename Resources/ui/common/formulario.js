@@ -97,7 +97,8 @@ function formulario(){
 	  width: 200, 
 	  height: 37,
 	  backgroundColor:'#ffffff',
-	    keyboardType:Ti.UI.KEYBOARD_EMAIL
+	    keyboardType:Ti.UI.KEYBOARD_EMAIL,
+	    value:Titanium.API.correo
 	});
 
 	var btnRegistro = Ti.UI.createButton({
@@ -131,11 +132,83 @@ function formulario(){
 		
 	});
 	
+	 	var style;
+if (Ti.Platform.name === 'android'){
+  
+  style = Ti.UI.ActivityIndicatorStyle.DARK;
+}
+else {
+ style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK; 
+}	
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: 'black',
+  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
+  message: 'Abriendo...',
+  style:style,
+   backgroundColor : '#000000',
+     height:"100%",
+  width:"100%",
+    color : 'white',
+    padding : 10,
+    opacity : 0.87,
+    top : 0,
+    borderRadius : 0,
+    borderColor : 'black',
+    borderWidth : 1
+});
+
 	
 	btnRegistro.addEventListener('click',function(){
-		var Gracias = require('/ui/common/gracias');
-			gracias = new Gracias();
-			gracias.open();
+//validar campos de registro
+		var activo=false;
+		if(txtNombre.value==""){
+			alert("Ingrese su Nombre");
+			return false;
+		}
+		if(txtApellido.value==""){
+			alert("Ingrese sus apellidos");
+			return false;
+		}
+		if(txtCorreo.value==""){
+			alert("Ingresa tu correo");
+			return false;
+		}
+		if(btnTerminos.value==false){
+			alert("Acepte los términos y condiciones");
+			return false;
+		}else{
+			activo=true;
+		}
+		if(activo==true){
+			activityIndicator.show();
+			yurl="http://productosalpha.com.pe/webservice/registro.php";
+			
+			var datos = ({
+				"nombres": txtNombre.value,
+				"apellido": txtApellido.value,
+				"correo": txtCorreo.value,
+				"idmobile": Ti.Platform.id
+			});
+			envioDatos = Ti.Network.createHTTPClient({
+				onload:function(e){
+					midata = JSON.parse(this.responseText);
+					if(midata.rpta=="ok"){
+						if(this.status==200){
+						activityIndicator.hide();	
+						var Gracias = require('/ui/common/gracias');
+						gracias = new Gracias();
+						gracias.open();
+						}
+					}
+				}
+			});
+			envioDatos.open("POST",yurl);
+			envioDatos.send(datos);
+			
+		}
+		/*
+		*/	
+			
 	});
 	
 	self.addEventListener('click',function(e){
@@ -157,6 +230,8 @@ function formulario(){
 	scroll.add(lblCorreo);
 	scroll.add(logoFooter);
 	scroll.add(logoBottom);
+	 self.add(activityIndicator);
 	return self;
+	
 }
 module.exports = formulario;

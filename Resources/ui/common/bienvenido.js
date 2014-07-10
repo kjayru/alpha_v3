@@ -133,9 +133,16 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 				if(getdata.estado=="bloque"){
 					alert("Agotaste los intentos por hoy trata mañana..");
 				}else{
+					
+					if(getdata.registro=="si"){
 					var Preguntas = require('/ui/common/preguntas');
 	  				preguntas = new Preguntas();
 	  				preguntas.open();
+	  				}else{
+	  				 var Opciones = require('/ui/common/opciones');
+	  				 	opciones = new Opciones();
+	  				 	opciones.open();
+	  				}
   				}
   			}
 		}
@@ -175,16 +182,27 @@ var activityIndicator = Ti.UI.createActivityIndicator({
   });
   
  
- btnPuntaje.addEventListener('click',function(){
- 	var alertPuntaje = Ti.UI.createAlertDialog({
+btnPuntaje.addEventListener('click',function(){
+ 
+  var xurl = "http://productosalpha.com.pe/webservice/puntos.php";
+   var envios = ({
+   	'idmobile':Ti.Platform.id
+   });
+  var misPuntos = Ti.Network.createHTTPClient({
+  	onload: function(e){
+  		data = JSON.parse(this.responseText);
+  		var alertPuntaje = Ti.UI.createAlertDialog({
  		title:'Puntos Ganados',
- 		message:"Tienes 10 puntos acomulados",
+ 		message:"Tienes "+ data.puntos +" puntos acomulados",
  		buttonNames:['Ok']
  	});
  	alertPuntaje.show();
  	return false;
+  	}
+  });
+  misPuntos.open("POST",xurl);
+  misPuntos.send(envios);
  });
- 
  
  btnSalir.addEventListener('click',function(){
  	 var activity = Titanium.Android.currentActivity;

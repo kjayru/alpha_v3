@@ -124,6 +124,17 @@ btnFacebook.addEventListener('click',function(){
 		formulario.open();	
 });
 btnRegistro.addEventListener('click',function(){
+	
+	if(txtCorreo.value=="Ingrese su correo"){
+		alert("Ingrese su correo");
+		return false;
+	}
+	if(txtCorreo.value==""){
+		alert("Ingrese su correo");
+		return false;
+	}
+	Titanium.API.correo=txtCorreo.value;
+	
 	var Formulario = require('/ui/common/formulario');
 		formulario = new Formulario();
 		formulario.open();	
@@ -135,7 +146,7 @@ var txtCorreo = Ti.UI.createTextField({
   top: 330, 
   width: 200, height: 37,
   backgroundColor:'#ffffff',
-  hintText:"Ingrese su corre",
+  hintText:"Ingrese su correo",
   keyboardType:Ti.UI.KEYBOARD_EMAIL
 });
 
@@ -148,19 +159,11 @@ self.addEventListener('click',function(e){
 	scroll.add(monstrito);
 	scroll.add(texto2);
 	scroll.add(logoFooter);
-	
 	scroll.add(btnFacebook);
 	scroll.add(btnRegistro);
-	
 	scroll.add(logoBottom);
-
 	self.add(scroll);
-	
-   
-
 	//Add behavior for UI
-
 	return self;
 }
-
 module.exports = opciones;

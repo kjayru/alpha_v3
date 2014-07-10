@@ -4,7 +4,8 @@ function perdiste(){
 		top:1,
 		width:"95%",
 		height:"100%",
-		scrollType:'vertical'
+		scrollType:'vertical',
+		zIndex:30
 	});
 	
 	var nwin = Ti.UI.createWindow({
@@ -18,14 +19,14 @@ function perdiste(){
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
 		zIndex:10,
-		top:400,
+		top:530,
 		width:100,
 		height:30,
 		zIndex:11
 	});
 	
 	var logoBottom = Ti.UI.createLabel({
-		top: 490,
+		top: 590,
 		width:70,
 		height:27,
 		left:20,
@@ -33,38 +34,27 @@ function perdiste(){
 	});
 	
 	var boca  = Ti.UI.createImageView({
-		backgroundImage:'/assets/grafico_win.png',
+		backgroundImage:'http://productosalpha.com.pe/webservice/img/'+Titanium.API.imagen,
 		width:150,
 		height:197,
 		
 		zIndex:10,
-		top:45
+		top:50
 	});
 	var titulo = Ti.UI.createLabel({
-		text:'¡Ay ay casi pero no! intentalo nuevamente',
+		text:Titanium.API.incorrecta,
 		backgroundColor:'#103242',
 		color:'#ffffff',
 		top:255,
-		width:200,
+		width:250,
 		height:46,
 		zIndex:12,
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 	});
 	
-	var contexto = Ti.UI.createLabel({
-		text:'Comparte la aplicación y gana un punto extra.',
-		backgroundColor:'#ffffff',
-		color:'#103242',
-		width:200,
-		height:70,
-		top:301,
-		zIndex:11,
-		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
-		
-		
-	});
+
 	var btnRegistro = Ti.UI.createButton({
-		top: 430,
+		top: 470,
 		width:250,
 		height:40,
 		backgroundColor:'#37ade2',
@@ -79,7 +69,7 @@ function perdiste(){
 	});
 	
 	var btnIntento = Ti.UI.createButton({
-		top: 380,
+		top: 425,
 		width:250,
 		height:40,
 		backgroundColor:'#37ade2',
@@ -101,7 +91,19 @@ function perdiste(){
   	  zIndex:100
   });
   
-  var btnFacebook = Ti.UI.createButton({
+var contexto = Ti.UI.createView({
+	
+		backgroundColor:'#ffffff',
+		color:'#103242',
+		width:250,
+		height:120,
+		top:300,
+		zIndex:11
+		
+		
+	});
+	
+	var btnFacebook = Ti.UI.createButton({
 		backgroundImage:'/assets/facebook.png',
 		width:40,
 		height:40,
@@ -118,7 +120,16 @@ function perdiste(){
 		right:80,
 		zIndex:21
 	});
-  
+	
+	var texto1 = Ti.UI.createLabel({
+		text:'¡Elige otro desafio! y gana mas puntos! Comparte la aplicación y gana un punto extra.',
+		width:230,
+		height:60,
+		top:5,
+		left:5,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		color:'#000000'
+	});
  
   
   btnPuntaje = Ti.UI.createButton({
@@ -148,14 +159,26 @@ function perdiste(){
   });
   
    
- btnPuntaje.addEventListener('click',function(){
- 	var alertPuntaje = Ti.UI.createAlertDialog({
+btnPuntaje.addEventListener('click',function(){
+ 
+  var xurl = "http://productosalpha.com.pe/webservice/puntos.php";
+   var envios = ({
+   	'idmobile':Ti.Platform.id
+   });
+  var misPuntos = Ti.Network.createHTTPClient({
+  	onload: function(e){
+  		data = JSON.parse(this.responseText);
+  		var alertPuntaje = Ti.UI.createAlertDialog({
  		title:'Puntos Ganados',
- 		message:"Tienes 10 puntos acomulados",
+ 		message:"Tienes "+ data.puntos +" puntos acomulados",
  		buttonNames:['Ok']
  	});
  	alertPuntaje.show();
  	return false;
+  	}
+  });
+  misPuntos.open("POST",xurl);
+  misPuntos.send(envios);
  });
  
  
@@ -191,29 +214,27 @@ var activityIndicator = Ti.UI.createActivityIndicator({
   
   btnIntento.addEventListener('click',function(){
   	
-  	var jurl = "http://productosalpha.com.pe/webservice/preguntas.php";
-  	   var mparam=({
-  	    'categoria' :Titanium.API.nivel,
-		'idmobile'  :Ti.Platform.id,
-		'id_preg'   :Titanium.API.itemId
-  	});
-  	var consulta4 = Ti.Network.createHTTPClient({
+  var surl = "http://productosalpha.com.pe/webservice/bqintentos.php";
+	var parame=({
+					'idmobile':Ti.Platform.id
+				});
+	var consulta = Ti.Network.createHTTPClient({
 		onload: function(e){
-			var getdatos = JSON.parse(this.responseText);
+			var getdata = JSON.parse(this.responseText);
 			activityIndicator.show();
 			if(this.status==200){
 			activityIndicator.hide();
-				if(getdatos.estado=="bloque"){
+				if(getdata.estado=="bloque"){
 					alert("Agotaste los intentos por hoy trata mañana..");
 				}else{
 						nwin.close();
-					}
+  				}
   			}
 		}
 		
 	});
-   consulta4.open("POST",jurl);
-   consulta4.send(mparam);
+   consulta.open("POST",surl);
+   consulta.send(parame);
   });
   
 btnRegistro.addEventListener('click',function(){
@@ -243,6 +264,33 @@ btnRegistro.addEventListener('click',function(){
    consulta.send(parame);	  		
   		
 });
+
+///compartir app en facebook
+btnFacebook.addEventListener('click',function(){
+	
+		// First make sure this permission exists
+	Titanium.Facebook.permissions = ['publish_stream'];
+	Titanium.Facebook.authorize();
+	 
+	// ...
+	// ...
+	 
+	// Now create the status message after you've confirmed that authorize() succeeded
+	Titanium.Facebook.requestWithGraphPath('me/feed', {message: "test de prueba app"}, "POST", function(e) {
+	    if (e.success) {
+	        alert("Success! desde facebook: " + e.result);
+	    } else {
+	        if (e.error) {
+	            alert(e.error);
+	        } else {
+	            alert("resultado con errores");
+	        }
+	    }
+	});
+});
+    contexto.add(texto1);
+    contexto.add(btnFacebook);
+    contexto.add(btnTwitter);
     nwin.add(btnPuntaje);
     nwin.add(btnSalir);
     nwin.add(barraFoot);
@@ -250,7 +298,7 @@ btnRegistro.addEventListener('click',function(){
 	scroll.add(btnRegistro);
 	scroll.add(btnIntento);
 	scroll.add(logoFooter);
-	scroll.add(boca);
+	nwin.add(boca);
 	scroll.add(contexto);
 	scroll.add(titulo);
 	scroll.add(logoBottom);

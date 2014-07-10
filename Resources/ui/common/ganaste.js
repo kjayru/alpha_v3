@@ -33,7 +33,7 @@ function ganaste(){
 	});
 	
 	var boca  = Ti.UI.createImageView({
-		backgroundImage:'/assets/grafico_win.png',
+		backgroundImage:'http://productosalpha.com.pe/webservice/img/'+Titanium.API.imagen,
 		width:150,
 		height:197,
 		
@@ -52,7 +52,7 @@ function ganaste(){
 	});
 	
 	var contexto = Ti.UI.createLabel({
-		text:'¡Claro que puedo! haria una excelente maceta con ella.',
+		html:Titanium.API.correcta,
 		backgroundColor:'#ffffff',
 		color:'#103242',
 		width:200,
@@ -77,6 +77,22 @@ function ganaste(){
 		backgroundFocusedColor:'#000',
 		backgroundDisabledColor:'#ff0000'
 	});
+	
+	var btnRegistro2 = Ti.UI.createButton({
+		top: 390,
+		width:200,
+		height:40,
+		backgroundColor:'#37ade2',
+		zIndex:14,
+		title:'SIGUIENTE DESAFIO',
+		color:'#ffffff',
+		font:{fontFamily:'Minecrafter_3',fontSize:14},
+		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		backgroundFocusedColor:'#000',
+		backgroundDisabledColor:'#ff0000'
+	});
+	
 	 var barraFoot = Ti.UI.createView({
   	  backgroundColor:"#003f88",
   	  width:"100%",
@@ -113,23 +129,53 @@ function ganaste(){
   	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
   });
   
+  	var style;
+if (Ti.Platform.name === 'android'){
   
-  btnRegistro.addEventListener('click',function(){
-  		var Opciones = require('/ui/common/opciones');
-  			opciones = new Opciones();
-  			opciones.open();
-  		
-  });
+  style = Ti.UI.ActivityIndicatorStyle.DARK;
+}
+else {
+ style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK; 
+}	
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: 'black',
+  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
+  message: 'Abriendo...',
+  style:style,
+   backgroundColor : '#000000',
+     height:"100%",
+  width:"100%",
+    color : 'white',
+    padding : 10,
+    opacity : 0.87,
+    top : 0,
+    borderRadius : 0,
+    borderColor : 'black',
+    borderWidth : 1
+});
+  
   
    
- btnPuntaje.addEventListener('click',function(){
- 	var alertPuntaje = Ti.UI.createAlertDialog({
+btnPuntaje.addEventListener('click',function(){
+ 
+  var xurl = "http://productosalpha.com.pe/webservice/puntos.php";
+   var envios = ({
+   	'idmobile':Ti.Platform.id
+   });
+  var misPuntos = Ti.Network.createHTTPClient({
+  	onload: function(e){
+  		data = JSON.parse(this.responseText);
+  		var alertPuntaje = Ti.UI.createAlertDialog({
  		title:'Puntos Ganados',
- 		message:"Tienes 10 puntos acomulados",
+ 		message:"Tienes "+ data.puntos +" puntos acomulados",
  		buttonNames:['Ok']
  	});
  	alertPuntaje.show();
  	return false;
+  	}
+  });
+  misPuntos.open("POST",xurl);
+  misPuntos.send(envios);
  });
  
  
@@ -142,12 +188,53 @@ function ganaste(){
   self.add(btnSalir);
   self.add(barraFoot);
 	self.add(scroll);
-	scroll.add(btnRegistro);
+	if(Titanium.API.registrate==false){
+	  scroll.add(btnRegistro);
+	  
+	  btnRegistro.addEventListener('click',function(){
+	  		var Opciones = require('/ui/common/opciones');
+	  			opciones = new Opciones();
+	  			opciones.open();		
+	  });	
+	}else{
+	scroll.add(btnRegistro2);
+	btnRegistro2.addEventListener('click',function(){
+	activityIndicator.show();
+	var surl = "http://productosalpha.com.pe/webservice/bqintentos.php";
+	parame=({
+					'idmobile':Ti.Platform.id
+				});
+	var consulta = Ti.Network.createHTTPClient({
+		onload: function(e){
+			var getdata = JSON.parse(this.responseText);
+			
+			if(this.status==200){
+			activityIndicator.hide();
+				if(getdata.estado=="bloque"){
+					alert("Agotaste los intentos por hoy trata mañana..");
+				}else{
+						var Preguntas = require('/ui/common/preguntas');
+					  		preguntas = new Preguntas();
+					  		preguntas.open();
+					}
+  			}
+		}
+		
+	});
+   consulta.open("POST",surl);
+   consulta.send(parame);	  		
+  		
+});	
+	}
+	
+	
+	
 	scroll.add(logoFooter);
 	scroll.add(boca);
 	scroll.add(contexto);
 	scroll.add(titulo);
 	scroll.add(logoBottom);
+	self.add(activityIndicator);
 	return self;
 };
 module.exports = ganaste;
