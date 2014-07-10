@@ -7,12 +7,12 @@ function perdiste(){
 		scrollType:'vertical'
 	});
 	
-	var self = Ti.UI.createWindow({
+	var nwin = Ti.UI.createWindow({
 		backgroundImage:"/assets/fondo2.png",
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true,
+		exitOnClose:false,
 		navBarHidden:true
 	});
 	var logoFooter = Ti.UI.createView({
@@ -163,6 +163,31 @@ function perdiste(){
  	 var activity = Titanium.Android.currentActivity;
         activity.finish();
  }); 
+ 
+ 	var style;
+if (Ti.Platform.name === 'android'){
+  
+  style = Ti.UI.ActivityIndicatorStyle.DARK;
+}
+else {
+ style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK; 
+}	
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: 'black',
+  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
+  message: 'Abriendo...',
+  style:style,
+   backgroundColor : '#000000',
+     height:"100%",
+  width:"100%",
+    color : 'white',
+    padding : 10,
+    opacity : 0.87,
+    top : 0,
+    borderRadius : 0,
+    borderColor : 'black',
+    borderWidth : 1
+});
   
   btnIntento.addEventListener('click',function(){
   	
@@ -181,7 +206,7 @@ function perdiste(){
 				if(getdatos.estado=="bloque"){
 					alert("Agotaste los intentos por hoy trata mañana..");
 				}else{
-						self.close();
+						nwin.close();
 					}
   			}
 		}
@@ -218,10 +243,10 @@ btnRegistro.addEventListener('click',function(){
    consulta.send(parame);	  		
   		
 });
-    self.add(btnPuntaje);
-    self.add(btnSalir);
-    self.add(barraFoot);
-	self.add(scroll);
+    nwin.add(btnPuntaje);
+    nwin.add(btnSalir);
+    nwin.add(barraFoot);
+	nwin.add(scroll);
 	scroll.add(btnRegistro);
 	scroll.add(btnIntento);
 	scroll.add(logoFooter);
@@ -229,6 +254,7 @@ btnRegistro.addEventListener('click',function(){
 	scroll.add(contexto);
 	scroll.add(titulo);
 	scroll.add(logoBottom);
-	return self;
+	nwin.add(activityIndicator);
+	return nwin;
 };
 module.exports = perdiste;
