@@ -64,7 +64,8 @@ function formulario(){
 	  width: 200,
 	  height: 37,
 	  backgroundColor:'#ffffff',
-	  color:'#103242'
+	  color:'#103242',
+	    keyboardType:Ti.UI.KEYBOARD_DEFAULT
 	});
 	var lblApellido = Ti.UI.createLabel({
 		top:225,
@@ -79,7 +80,8 @@ function formulario(){
 	  top: 250, 
 	  width: 200, 
 	  height: 37,
-	  backgroundColor:'#ffffff'
+	  backgroundColor:'#ffffff',
+	    keyboardType:Ti.UI.KEYBOARD_DEFAULT
 	});
 	var lblCorreo = Ti.UI.createLabel({
 		top:295,
@@ -94,7 +96,8 @@ function formulario(){
 	  top: 320, 
 	  width: 200, 
 	  height: 37,
-	  backgroundColor:'#ffffff'
+	  backgroundColor:'#ffffff',
+	    keyboardType:Ti.UI.KEYBOARD_EMAIL
 	});
 
 	var btnRegistro = Ti.UI.createButton({
@@ -135,6 +138,11 @@ function formulario(){
 			gracias.open();
 	});
 	
+	self.addEventListener('click',function(e){
+	txtNombre.blur();
+	txtApellido.blur();
+	txtCorreo.blur();
+});
 	self.add(scroll);
 	scroll.add(btnTerminos);
 	scroll.add(logo);

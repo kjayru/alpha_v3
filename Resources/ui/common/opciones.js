@@ -134,9 +134,14 @@ var txtCorreo = Ti.UI.createTextField({
   color: '#336699',
   top: 330, 
   width: 200, height: 37,
-  backgroundColor:'#ffffff'
+  backgroundColor:'#ffffff',
+  hintText:"Ingrese su corre",
+  keyboardType:Ti.UI.KEYBOARD_EMAIL
 });
 
+self.addEventListener('click',function(e){
+	txtCorreo.blur();
+});
 	scroll.add(logo);
 	scroll.add(txtCorreo);
 	scroll.add(texto1);
