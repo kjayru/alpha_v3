@@ -120,10 +120,33 @@ var activityIndicator = Ti.UI.createActivityIndicator({
  
   btnIngreso.addEventListener('click',function(){
   
-   	var Preguntas = require('/ui/common/preguntas');
-  		preguntas = new Preguntas();
-  		preguntas.open();
+  var surl = "http://productosalpha.com.pe/webservice/bqintentos.php";
+	parame=({
+					'idmobile':Ti.Platform.id
+				});
+	var consulta = Ti.Network.createHTTPClient({
+		onload: function(e){
+			var getdata = JSON.parse(this.responseText);
+			activityIndicator.show();
+			if(this.status==200){
+			activityIndicator.hide();
+				if(getdata.estado=="bloque"){
+					alert("Agotaste los intentos por hoy trata mañana..");
+				}else{
+					var Preguntas = require('/ui/common/preguntas');
+	  				preguntas = new Preguntas();
+	  				preguntas.open();
+  				}
+  			}
+		}
+		
+	});
+   consulta.open("POST",surl);
+   consulta.send(parame);
+   
+   
   });
+  
   
   btnPuntaje = Ti.UI.createButton({
   	title:'PUNTAJE',
@@ -179,6 +202,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 	 scrolls.add(btnIngreso);
 	 self.add(scrolls);
 	 self.add(barraFoot);
+	 self.add(activityIndicator);
 	 return self;
 }
 module.exports = bienvenido;

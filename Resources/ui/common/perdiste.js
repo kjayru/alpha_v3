@@ -12,7 +12,8 @@ function perdiste(){
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:true
+		exitOnClose:true,
+		navBarHidden:true
 	});
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
@@ -163,15 +164,59 @@ function perdiste(){
         activity.finish();
  }); 
   
-  btnIntento.addEventListener('android:back',function(){
-  	Ti.UI.currentWindow.close();
+  btnIntento.addEventListener('click',function(){
   	
+  	var jurl = "http://productosalpha.com.pe/webservice/preguntas.php";
+  	   var mparam=({
+  	    'categoria' :Titanium.API.nivel,
+		'idmobile'  :Ti.Platform.id,
+		'id_preg'   :Titanium.API.itemId
+  	});
+  	var consulta4 = Ti.Network.createHTTPClient({
+		onload: function(e){
+			var getdatos = JSON.parse(this.responseText);
+			activityIndicator.show();
+			if(this.status==200){
+			activityIndicator.hide();
+				if(getdatos.estado=="bloque"){
+					alert("Agotaste los intentos por hoy trata mañana..");
+				}else{
+						self.close();
+					}
+  			}
+		}
+		
+	});
+   consulta4.open("POST",jurl);
+   consulta4.send(mparam);
   });
   
 btnRegistro.addEventListener('click',function(){
-	var Preguntas = require('/ui/common/preguntas');
-  		preguntas = new Preguntas();
-  		preguntas.open();
+	
+	var surl = "http://productosalpha.com.pe/webservice/bqintentos.php";
+	parame=({
+					'idmobile':Ti.Platform.id
+				});
+	var consulta = Ti.Network.createHTTPClient({
+		onload: function(e){
+			var getdata = JSON.parse(this.responseText);
+			activityIndicator.show();
+			if(this.status==200){
+			activityIndicator.hide();
+				if(getdata.estado=="bloque"){
+					alert("Agotaste los intentos por hoy trata mañana..");
+				}else{
+						var Preguntas = require('/ui/common/preguntas');
+					  		preguntas = new Preguntas();
+					  		preguntas.open();
+					}
+  			}
+		}
+		
+	});
+   consulta.open("POST",surl);
+   consulta.send(parame);	  		
+  		
 });
     self.add(btnPuntaje);
     self.add(btnSalir);

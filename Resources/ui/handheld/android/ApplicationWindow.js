@@ -53,7 +53,8 @@ if(Titanium.Network.online){
 				
 						var firstView = new FirstView();
 						self.add(firstView);									
-			 }else{	    	
+			 }else{	    
+			 			Titanium.API.nivel = getdata.level;	
 						var Bienvenida = require('/ui/common/bienvenido');
 						var bienvenida = new Bienvenida();
 						bienvenida.open();	

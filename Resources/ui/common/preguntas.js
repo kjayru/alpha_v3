@@ -64,20 +64,43 @@ function preguntas(){
 		top:2
 	});
 
+	var style;
+if (Ti.Platform.name === 'android'){
+  
+  style = Ti.UI.ActivityIndicatorStyle.DARK;
+}
+else {
+ style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK; 
+}	
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: 'black',
+  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
+  message: 'Abriendo...',
+  style:style,
+   backgroundColor : '#000000',
+     height:"100%",
+  width:"100%",
+    color : 'white',
+    padding : 10,
+    opacity : 0.87,
+    top : 0,
+    borderRadius : 0,
+    borderColor : 'black',
+    borderWidth : 1
+});
+
 ////EXTRAEMOS LA PREGUNTAS PARA EL NIVEL GENERADO
-	var url = "http://productosalpha.com.pe/webservice/preguntas.php";
-	 	 var params = {
+	var uri = "http://productosalpha.com.pe/webservice/preguntas.php";
+	 	 var parametros = {
 		'categoria' :Titanium.API.nivel,
 		'idmobile'  :Ti.Platform.id
 	   };
-	 	 var client = Ti.Network.createHTTPClient({ 
+	 	 var clientes = Ti.Network.createHTTPClient({ 
 	 	 	 onload : function(e) {
-								        var getdata = JSON.parse(this.responseText);	
-								        
-								        //Titanium.API.id=getdata.id;	 
-								        //id =  Titanium.API.id;    
-						///CARGA DE PREGUNTA Y OPCIONES	
-			        
+	 	 	 		activityIndicator.show();
+	 	 	 	 if(this.status==200){
+	 	 	 	 	activityIndicator.hide();
+								        var getdata = JSON.parse(this.responseText);		        
 								        var tasks = [
 									    {id: getdata.id,value:getdata.opciones[0].value, name: getdata.opciones[0].opcion1,rpta:getdata.activo},
 									    {id: getdata.id,value:getdata.opciones[1].value, name: getdata.opciones[1].opcion2,rpta:getdata.activo},
@@ -113,21 +136,62 @@ function preguntas(){
 						   
 						    
 						listView.addEventListener('itemclick', function(e){
-							
+					    activityIndicator.show();	
 							
 					    var item = section.getItemAt(e.itemIndex);
-
+						
 					    Titanium.API.itemId=item.properties.itemId;
 					    Titanium.API.value=item.properties.value;
 					    section.updateItemAt(e.itemIndex, item);
-					  if(item.properties.rpta===item.properties.value){   
-					    var Ganaste = require('/ui/common/ganaste');
-					    ganaste = new Ganaste();
-					    ganaste.open();
+					  if(item.properties.rpta===item.properties.value){  
+					 
+					  ///enviamos consulta de registro en tbl.registro y tbl.estado	 
+					  
+						 url2='http://productosalpha.com.pe/webservice/update.php';
+							    var params2 = {
+									'idmobile': Ti.Platform.id,
+									'id_preg' : Titanium.API.itemId
+								};
+								 var client2 = Ti.Network.createHTTPClient({
+								 	onload:function(e){
+										// var getdata = this.responseText;
+										
+										    if(this.status==200){
+									     	activityIndicator.hide();
+									     		var Ganaste = require('/ui/common/ganaste');
+											    ganaste = new Ganaste();
+											    ganaste.open(); 
+									     }
+									     		
+									     			
+								 	}
+								 });
+							   
+							   	 client2.open("POST", url2);
+								 client2.send(params2);  
 					   }else{
-					   	var Perdiste = require('/ui/common/perdiste');
-					   	perdiste = new Perdiste();
-					   	perdiste .open();
+					  ///enivamos consulta de registro en tbl.intentos
+					 
+					    url3='http://productosalpha.com.pe/webservice/intentos.php';
+					    var params3 = {
+							'idmobile': Ti.Platform.id,
+							'id_preg' : Titanium.API.itemId
+						};
+						
+						 var client3 = Titanium.Network.createHTTPClient({
+						 	onload:function(){
+								 
+								if(this.status==200){
+							     		activityIndicator.hide();
+							     			var Perdiste = require('/ui/common/perdiste');
+										   	perdiste = new Perdiste();
+										   	perdiste .open();
+							    	}		
+						 	}
+						 });
+					   
+					   	 client3.open("POST", url3);
+						 client3.send(params3);
 					   }
 					});
 					
@@ -152,15 +216,20 @@ function preguntas(){
 			    lblItem.add(lblTexto);
 			    scroll.add(lblItem);
 			    scroll.add(listView);
-},
+			    
+			   }else{
+			   
+			   		}
+			},
 		     onerror : function(e) {
 		         Ti.API.debug("Perdiste Conexión a internet");
-		         alert('error'+e);
-		     }	
+		       
+		     }
+		     
 	 	 });
   	
-  	 client.open("POST", url);
-	client.send(params);  
+  	 clientes.open("POST", uri);
+	clientes.send(parametros);  
 		
 	
 
@@ -180,6 +249,7 @@ function preguntas(){
   self.add(scroll);
   self.add(contador);
   self.add(lblContador);
+  self.add(activityIndicator);
   return self;
 }
 module.exports = preguntas;
