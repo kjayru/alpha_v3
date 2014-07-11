@@ -19,6 +19,7 @@
     <analytics>true</analytics>
     <guid>e0fb27db-b48f-47e4-8831-5562a2fefcea</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
+     <property name="ti.facebook.appid">1397156940536791</property>
     <ios>
         <plist>
             <dict>

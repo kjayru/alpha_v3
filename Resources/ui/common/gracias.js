@@ -175,7 +175,51 @@ btnPuntaje.addEventListener('click',function(){
  	 var activity = Titanium.Android.currentActivity;
         activity.finish();
  }); 
-  
+
+btnFacebook.addEventListener('click',function(){
+ var fb = require('facebook');
+ fb.appid = 1397156940536791;
+ fb.permissions = ['publish_stream']; // Permissions your app needs
+ fb.forceDialogAuth = true;
+
+ fb.authorize();
+      ///suma 1 punto
+      ///post para publicar
+       
+			fb.requestWithGraphPath('me/feed', {
+				message: "Comparte la diversión y gana premios.",
+				picture:"http://productosalpha.com.pe/webservice/share.png"
+				}, 
+			         "POST", function(e) {
+			    if (e.success) {
+			        ////SECCION COMPARTIR A DETALLE
+					    var aurl = "http://productosalpha.com.pe/webservice/compartir.php";   
+						nparametro=({
+							"idmobile":Ti.Platform.id
+						});
+						
+						sumarPunto = Ti.Network.createHTTPClient({
+						onload:function(e){
+							midata = JSON.parse(this.responseText);
+							if(midata.rpta=="ok"){
+								if(this.status==200){
+									alert("Ganaste un punto extra!!!");
+								}
+							}
+						}
+					});
+					sumarPunto.open("POST",aurl);
+					sumarPunto.send(nparametro);
+			    } else {
+			        if (e.error) {
+			            alert("Error de aplicación");
+			        } else {
+			            alert("No hay parametros definidos");
+			        }
+			    }
+			});
+					
+});
   
     contexto.add(texto1);
     contexto.add(btnFacebook);

@@ -267,26 +267,52 @@ btnRegistro.addEventListener('click',function(){
 
 ///compartir app en facebook
 btnFacebook.addEventListener('click',function(){
-	
-		// First make sure this permission exists
-	Titanium.Facebook.permissions = ['publish_stream'];
-	Titanium.Facebook.authorize();
-	 
-	// ...
-	// ...
-	 
-	// Now create the status message after you've confirmed that authorize() succeeded
-	Titanium.Facebook.requestWithGraphPath('me/feed', {message: "test de prueba app"}, "POST", function(e) {
-	    if (e.success) {
-	        alert("Success! desde facebook: " + e.result);
-	    } else {
-	        if (e.error) {
-	            alert(e.error);
-	        } else {
-	            alert("resultado con errores");
-	        }
-	    }
-	});
+ var fb = require('facebook');
+ fb.appid = 1397156940536791;
+ fb.permissions = ['publish_stream']; // Permissions your app needs
+ fb.forceDialogAuth = true;
+
+ fb.authorize();
+      ///suma 1 punto
+      ///post para publicar
+       
+			fb.requestWithGraphPath('me/feed', {
+				message: "Comparte la diversión y gana premios.",
+				picture:"http://productosalpha.com.pe/webservice/share.png"
+				}, 
+			         "POST", function(e) {
+			    if (e.success) {
+			    
+			    ////SECCION COMPARTIR A DETALLE
+			    var aurl = "http://productosalpha.com.pe/webservice/compartir.php";   
+				nparametro=({
+					"idmobile":Ti.Platform.id
+				});
+				
+				sumarPunto = Ti.Network.createHTTPClient({
+				onload:function(e){
+					midata = JSON.parse(this.responseText);
+					if(midata.rpta=="ok"){
+						if(this.status==200){
+							alert("Ganaste un punto extra!!!");
+						}
+					}
+				}
+			});
+			sumarPunto.open("POST",aurl);
+			sumarPunto.send(nparametro);
+			
+				
+				
+			    } else {
+			        if (e.error) {
+			            alert("Error de aplicación");
+			        } else {
+			            alert("No hay parametros definidos");
+			        }
+			    }
+			});
+					
 });
     contexto.add(texto1);
     contexto.add(btnFacebook);

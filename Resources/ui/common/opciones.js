@@ -119,9 +119,14 @@ function opciones() {
 
 
 btnFacebook.addEventListener('click',function(){
+	
+	
+	
 	var Formulario = require('/ui/common/formulario');
 		formulario = new Formulario();
 		formulario.open();	
+		
+		
 });
 btnRegistro.addEventListener('click',function(){
 	
@@ -153,13 +158,39 @@ var txtCorreo = Ti.UI.createTextField({
 self.addEventListener('click',function(e){
 	txtCorreo.blur();
 });
+
+var fb = require('facebook');
+fb.appid = 1397156940536791;
+fb.permissions = ['publish_stream'];
+fb.addEventListener('login', function(e) {
+	fb.requestWithGraphPath('me', {}, 'GET', function(e) {
+	    if (e.success) {
+	       var getdata     = JSON.parse(e.result);
+	        Ti.API.correo    = getdata.email;
+	        Ti.API.fbid      = getdata.id;
+	        Ti.API.nombres   = getdata.first_name;
+	        Ti.API.apellidos = getdata.last_name;
+	        var Formulario   = require('/ui/common/formulario');
+			formulario       = new Formulario();
+			formulario.open();
+	    } else if (e.error) {
+	        alert(e.error);
+	    } else {
+	        alert('Unknown response');
+	    }
+	});
+});
+
 	scroll.add(logo);
 	scroll.add(txtCorreo);
 	scroll.add(texto1);
 	scroll.add(monstrito);
 	scroll.add(texto2);
 	scroll.add(logoFooter);
-	scroll.add(btnFacebook);
+	scroll.add(fb.createLoginButton({
+		top:280,
+		style:fb.BUTTON_STYLE_WIDE
+	}));
 	scroll.add(btnRegistro);
 	scroll.add(logoBottom);
 	self.add(scroll);

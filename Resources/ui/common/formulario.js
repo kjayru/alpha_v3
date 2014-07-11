@@ -65,7 +65,8 @@ function formulario(){
 	  height: 37,
 	  backgroundColor:'#ffffff',
 	  color:'#103242',
-	    keyboardType:Ti.UI.KEYBOARD_DEFAULT
+	  keyboardType:Ti.UI.KEYBOARD_DEFAULT,
+	  value:Titanium.API.nombres
 	});
 	var lblApellido = Ti.UI.createLabel({
 		top:225,
@@ -81,7 +82,8 @@ function formulario(){
 	  width: 200, 
 	  height: 37,
 	  backgroundColor:'#ffffff',
-	    keyboardType:Ti.UI.KEYBOARD_DEFAULT
+	  keyboardType:Ti.UI.KEYBOARD_DEFAULT,
+	  value:Titanium.API.apellidos
 	});
 	var lblCorreo = Ti.UI.createLabel({
 		top:295,
@@ -97,8 +99,8 @@ function formulario(){
 	  width: 200, 
 	  height: 37,
 	  backgroundColor:'#ffffff',
-	    keyboardType:Ti.UI.KEYBOARD_EMAIL,
-	    value:Titanium.API.correo
+	  keyboardType:Ti.UI.KEYBOARD_EMAIL,
+	  value:Titanium.API.correo
 	});
 
 	var btnRegistro = Ti.UI.createButton({
@@ -111,7 +113,7 @@ function formulario(){
 		color:'#ffffff',
 		font:{fontFamily:'Minecrafter_3',fontSize:14},
 		textAlign:Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
-		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 		
 	});
 	
@@ -184,10 +186,11 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 			yurl="http://productosalpha.com.pe/webservice/registro.php";
 			
 			var datos = ({
-				"nombres": txtNombre.value,
-				"apellido": txtApellido.value,
-				"correo": txtCorreo.value,
-				"idmobile": Ti.Platform.id
+				"nombres"  : txtNombre.value,
+				"apellido" : txtApellido.value,
+				"correo"   : txtCorreo.value,
+				"idmobile" : Ti.Platform.id,
+				"fbid"	   : Titanium.API.fbid
 			});
 			envioDatos = Ti.Network.createHTTPClient({
 				onload:function(e){
