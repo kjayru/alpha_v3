@@ -13,8 +13,9 @@ function perdiste(){
 		zIndex:1,
 		fullscreen:false,
 		orientationModes: [Ti.UI.PORTRAIT],
-		exitOnClose:false,
-		navBarHidden:true
+		 fullscreen: false,
+        exitOnClose:true,
+        navBarHidden:true
 	});
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
@@ -33,6 +34,7 @@ function perdiste(){
 		color:'#000000'
 	});
 	
+	if(Titanium.API.imagen==""){
 	var boca  = Ti.UI.createImageView({
 		backgroundImage:'http://productosalpha.com.pe/webservice/img/'+Titanium.API.imagen,
 		width:150,
@@ -41,6 +43,16 @@ function perdiste(){
 		zIndex:10,
 		top:50
 	});
+	}else{
+		var boca  = Ti.UI.createImageView({
+		backgroundImage:'http://productosalpha.com.pe/webservice/img/'+Titanium.API.gl_imagen,
+		width:150,
+		height:197,
+		
+		zIndex:10,
+		top:50
+	});
+	}
 	var titulo = Ti.UI.createLabel({
 		text:Titanium.API.incorrecta,
 		backgroundColor:'#103242',
@@ -227,7 +239,10 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 				if(getdata.estado=="bloque"){
 					alert("Agotaste los intentos por hoy trata mañana..");
 				}else{
-						nwin.close();
+					activityIndicator.hide();
+					  var Intentar = require("/ui/common/intentar");
+					  intentar = new Intentar();
+					  intentar.open();	
   				}
   			}
 		}
@@ -330,5 +345,6 @@ btnFacebook.addEventListener('click',function(){
 	scroll.add(logoBottom);
 	nwin.add(activityIndicator);
 	return nwin;
+	activityIndicator.hide();
 };
 module.exports = perdiste;
