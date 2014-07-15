@@ -47,7 +47,7 @@ function formulario(){
 		top:95,
 		width:220,
 		height:60,
-		font:{fontSize:20, fontWeight:'bold'},
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:20},
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 	});
 	var lblNombre = Ti.UI.createLabel({
@@ -55,7 +55,8 @@ function formulario(){
 		width:200,
 		height:20,
 		text:'Nombre',
-		color:'#103242'
+		color:'#103242',
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14}
 	});
 	var txtNombre = Ti.UI.createTextField({
 	  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
@@ -64,7 +65,7 @@ function formulario(){
 	  width: 200,
 	  height: 37,
 	  backgroundColor:'#ffffff',
-	  color:'#103242',
+	 font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 	  keyboardType:Ti.UI.KEYBOARD_DEFAULT,
 	  value:Titanium.API.nombres
 	});
@@ -73,7 +74,8 @@ function formulario(){
 		width:200,
 		height:20,
 		text:'Apellidos',
-		color:'#103242'
+		color:'#103242',
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14}
 	});
 	var txtApellido = Ti.UI.createTextField({
 	  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
@@ -83,6 +85,7 @@ function formulario(){
 	  height: 37,
 	  backgroundColor:'#ffffff',
 	  keyboardType:Ti.UI.KEYBOARD_DEFAULT,
+	  font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 	  value:Titanium.API.apellidos
 	});
 	var lblCorreo = Ti.UI.createLabel({
@@ -90,6 +93,7 @@ function formulario(){
 		width:200,
 		height:20,
 		text:'Correo',
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 		color:'#103242'
 	});
 	var txtCorreo = Ti.UI.createTextField({
@@ -100,6 +104,7 @@ function formulario(){
 	  height: 37,
 	  backgroundColor:'#ffffff',
 	  keyboardType:Ti.UI.KEYBOARD_EMAIL,
+	  font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 	  value:Titanium.API.correo
 	});
 
@@ -129,7 +134,7 @@ function formulario(){
 		left:140,
 		width:200,
 		height:30,
-		font:{fontSize:10},
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 		color:'#000000'
 		
 	});
@@ -144,8 +149,8 @@ else {
 }	
 var activityIndicator = Ti.UI.createActivityIndicator({
   color: 'black',
-  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
-  message: 'Abriendo...',
+ font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:20},
+  message: 'Enviando...',
   style:style,
    backgroundColor : '#000000',
      height:"100%",

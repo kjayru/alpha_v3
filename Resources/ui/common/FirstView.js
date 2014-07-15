@@ -47,7 +47,7 @@ function FirstView() {
 		width:200,
 		top:175,
 		right:30,
-		font: {fontFamily:'Snell Roundhand', fontSize:13},
+			font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12},
 		backgroundColor:'#000000',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		zIndex:4
@@ -59,7 +59,7 @@ function FirstView() {
 		width:200,
 		top:205,
 		right:30,
-		font: {fontFamily:'Snell Roundhand', fontSize:13},
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:12},
 		backgroundColor:'#ffffff',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		zIndex:3

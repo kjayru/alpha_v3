@@ -40,7 +40,8 @@ function opciones() {
 		text:"Aplicacion Alpha",
 		height:20,
 		width:200,
-		bottom:100
+		bottom:100,
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14}
 	});
 	
 	var texto1 = Ti.UI.createLabel({
@@ -50,7 +51,7 @@ function opciones() {
 		width:200,
 		top:175,
 		right:30,
-		font: {fontFamily:'Snell Roundhand', fontSize:13},
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 		backgroundColor:'#000000',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		zIndex:4
@@ -62,7 +63,7 @@ function opciones() {
 		width:200,
 		top:205,
 		right:30,
-		font: {fontFamily:'Snell Roundhand', fontSize:13},
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 		backgroundColor:'#ffffff',
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		zIndex:3
@@ -152,6 +153,7 @@ var txtCorreo = Ti.UI.createTextField({
   width: 200, height: 37,
   backgroundColor:'#ffffff',
   hintText:"Ingrese su correo",
+  font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
   keyboardType:Ti.UI.KEYBOARD_EMAIL
 });
 

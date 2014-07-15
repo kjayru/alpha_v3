@@ -154,7 +154,7 @@ var contexto = Ti.UI.createView({
   	color:'#ffffff',
   	zIndex:101,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  	font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   	
   });
    btnSalir = Ti.UI.createButton({
@@ -163,11 +163,11 @@ var contexto = Ti.UI.createView({
   	right:5,
   	width:150,
   	height: 40,
-  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER                                                                                   ,
+  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,                                                                                 
   	color:'#ffffff',
   	zIndex:102,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  	font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   });
   
    
@@ -209,8 +209,8 @@ else {
 }	
 var activityIndicator = Ti.UI.createActivityIndicator({
   color: 'black',
-  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
-  message: 'Abriendo...',
+ font:{fontFamily:'MYRIADPRO-BOLD',fontSize:20},
+  message: 'Cargando...',
   style:style,
    backgroundColor : '#000000',
      height:"100%",
@@ -237,7 +237,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 			if(this.status==200){
 			activityIndicator.hide();
 				if(getdata.estado=="bloque"){
-					alert("Agotaste los intentos por hoy trata mañana..");
+					alert("¡Has llegado al límite de respuestas incorrectas! No te preocupes mañana podrás volver a intentarlo. Recuerda… la práctica hace al maestro");
 				}else{
 					activityIndicator.hide();
 					  var Intentar = require("/ui/common/intentar");
@@ -265,7 +265,7 @@ btnRegistro.addEventListener('click',function(){
 			if(this.status==200){
 			activityIndicator.hide();
 				if(getdata.estado=="bloque"){
-					alert("Agotaste los intentos por hoy trata mañana..");
+					alert("¡Has llegado al límite de respuestas incorrectas! No te preocupes mañana podrás volver a intentarlo. Recuerda… la práctica hace al maestro");
 				}else{
 						var Preguntas = require('/ui/common/preguntas');
 					  		preguntas = new Preguntas();
@@ -292,7 +292,7 @@ btnFacebook.addEventListener('click',function(){
       ///post para publicar
        
 			fb.requestWithGraphPath('me/feed', {
-				message: "Comparte la diversión y gana premios.",
+				message: "El desafío Alpha es un reto para valientes, responde de manera correcta las preguntas que te haremos y ¡gana puntos para canjear grandes premios!.",
 				picture:"http://productosalpha.com.pe/webservice/share.png"
 				}, 
 			         "POST", function(e) {

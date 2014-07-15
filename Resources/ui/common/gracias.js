@@ -124,7 +124,7 @@ function gracias(){
   	color:'#ffffff',
   	zIndex:101,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  	font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   	
   });
    btnSalir = Ti.UI.createButton({
@@ -133,11 +133,11 @@ function gracias(){
   	right:5,
   	width:150,
   	height: 40,
-  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER                                                                                   ,
+  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER ,                                                                                  
   	color:'#ffffff',
   	zIndex:102,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   });
   
   
@@ -187,7 +187,7 @@ btnFacebook.addEventListener('click',function(){
       ///post para publicar
        
 			fb.requestWithGraphPath('me/feed', {
-				message: "Comparte la diversión y gana premios.",
+				message: "El desafío Alpha es un reto para valientes, responde de manera correcta las preguntas que te haremos y ¡gana puntos para canjear grandes premios!",
 				picture:"http://productosalpha.com.pe/webservice/share.png"
 				}, 
 			         "POST", function(e) {

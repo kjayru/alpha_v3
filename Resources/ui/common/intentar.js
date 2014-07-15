@@ -1,6 +1,3 @@
-
-
-
 function intentar(){
 		var scroll = Ti.UI.createScrollView({
 		top:1,
@@ -31,14 +28,14 @@ function intentar(){
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
 		zIndex:10,
-		top:575,
+		top:505,
 		width:100,
 		height:30,
 		
 	});
 	
 	var logoBottom = Ti.UI.createLabel({
-		top: 610,
+		top: 540,
 		width:70,
 		height:27,
 		left:20,
@@ -96,20 +93,56 @@ activityIndicator.show();
 	 	 	 onload : function(e) {
 	 	 	 		
 	 	 	 	 if(this.status==200){
+	 	 	 	 		 	 	 	 	
 	 	 	 	 	activityIndicator.hide();
-								        var getdata = JSON.parse(this.responseText);
+								       			        var getdata = JSON.parse(this.responseText);
 								        Titanium.API.gl_imagen = getdata.imagen;
-								        Titanium.API.gl_incorrecta = getdata.incorrecta;		        
+								        Titanium.API.gl_incorrecta = getdata.incorrecta;	
+								        Titanium.API.gl_id = getdata.id;		        
 								        var tasks = [
-									    {id: getdata.id,imagen:getdata.imagen,correcto:getdata.correcta,incorrecto:getdata.incorrecta,value:getdata.opciones[0].value, name: getdata.opciones[0].opcion1,rpta:getdata.activo},
-									    {id: getdata.id,imagen:getdata.imagen,correcto:getdata.correcta,incorrecto:getdata.incorrecta,value:getdata.opciones[1].value, name: getdata.opciones[1].opcion2,rpta:getdata.activo},
-									    {id: getdata.id,imagen:getdata.imagen,correcto:getdata.correcta,incorrecto:getdata.incorrecta,value:getdata.opciones[2].value, name:getdata.opciones[2].opcion3,rpta:getdata.activo}
+									    {
+									    	id: getdata.id,
+									    	imagen:getdata.imagen,
+									    	correcto:getdata.correcta,
+									    	incorrecto:getdata.incorrecta,
+									    	value:getdata.opciones[0].value, 
+									    	name: getdata.opciones[0].opcion0,
+									    	rpta:getdata.activo
+									    },
+									    {
+									    	id: getdata.id,
+									    	imagen:getdata.imagen,
+									    	correcto:getdata.correcta,
+									    	incorrecto:getdata.incorrecta,
+									    	value:getdata.opciones[1].value, 
+									    	name: getdata.opciones[1].opcion1,
+									    	rpta:getdata.activo
+									    },
+									    {
+									    	id: getdata.id,
+									    	imagen:getdata.imagen,
+									    	correcto:getdata.correcta,
+									    	incorrecto:getdata.incorrecta,
+									    	value:getdata.opciones[2].value, 
+									    	name:getdata.opciones[2].opcion2,
+									    	rpta:getdata.activo
+									    }
 										];
-										var data = [];
-						   Titanium.API.info(tasks.length);
-							for (var i = 0; i < tasks.length; i++) {
-							    data.push(
-							        { properties: {
+										var dataTable = [];
+										
+						  Titanium.API.debug(JSON.stringify(tasks));
+						for (var i = 0; i < 3; i++) {
+								
+								var row = Ti.UI.createTableViewRow({
+								   // used to improve table performance
+								    className: 'row',
+								    touchEnabled: true,
+								    height:Ti.UI.SIZE,
+								    rowIndex:i,
+								    backgroundColor:'#103242',
+								    
+								     // custom property, useful for determining the row during events
+							     properties: {
 							            itemId    : tasks[i].id,
 							            title     : tasks[i].name,
 							            value     : tasks[i].value,
@@ -118,29 +151,55 @@ activityIndicator.show();
 							            incorrecta: tasks[i].incorrecto,
 							            imagen	  : tasks[i].imagen,
 							            color     : 'white',
-							            backgroundColor:'#103242',
+							            
 							            bottom    :15,
 							            width     :'100%',
-							            right     :0
+							            right     :0,
+							            type : 'Ti.UI.Label'
 							        }
 							    });
-							} 
-							
-							var listView = Ti.UI.createListView({
+							    var labelUserName = Ti.UI.createLabel({
+								    color:'#ffffff',
+								    font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
+								
+								    text:tasks[i].name,
+								    left:10, top: 6,
+								    width:200, height: 70
+								  });
+								  
+								  var marcador = Ti.UI.createImageView({
+								  	image:"/assets/marcador.png",
+								  	top:1,
+								  	right:1,
+								  	width:15,
+								  	height:15,
+								  	zIndex:15
+								  });
+								  row.add(labelUserName);	
+								  row.add(marcador);							 
+							      dataTable.push(row);							        
+							   }							
+						/*	var listView = Ti.UI.createListView({
 								top:190,
 								right:40,
 								width:200
 						    });
-						    
 							var section = Ti.UI.createListSection();
 							section.setItems(data);
 							listView.sections = [section];
-						   
-						    
-						listView.addEventListener('itemclick', function(e){
+						  */ 
+						 var listView = Ti.UI.createTableView({
+						  backgroundColor:'transparent',
+						  data:dataTable,
+						  top:220,
+						  width:210,
+						  right:35
+						});
+
+						listView.addEventListener('click', function(e){
 					    activityIndicator.show();	
 							
-					    var item = section.getItemAt(e.itemIndex);
+					    var item = e.rowData;
 						
 					    Titanium.API.itemId     = item.properties.itemId;
 					    Titanium.API.value      = item.properties.value;
@@ -148,7 +207,7 @@ activityIndicator.show();
 					    Titanium.API.incorrecta = item.properties.incorrecta;
 					    Titanium.API.imagen     = item.properties.imagen;
 					    
-					    section.updateItemAt(e.itemIndex, item);
+					  
 					  if(item.properties.rpta===item.properties.value){  
 					 
 					  ///enviamos consulta de registro en tbl.registro y tbl.estado	 
@@ -217,20 +276,22 @@ activityIndicator.show();
 							
 						});
 			         var lblTexto = Ti.UI.createLabel({
-							width:'270',
+							width:'260',
 							left:5,
 							top:5,
 							bottom:5,
 							right:5,	
+							 font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 							text:getdata.pregunta,
-							color:'#343a36'
+							color:'#343a36',
+							height:Ti.UI.SIZE
 							
 						});
 						var monstrito= Ti.UI.createView({
 							backgroundImage:'http://productosalpha.com.pe/webservice/img/'+Titanium.API.gl_imagen,
 							zIndex:10,
 							left:-10,
-							top:160,
+							top:190,
 							width:103,
 							height:143
 						});	
@@ -238,6 +299,7 @@ activityIndicator.show();
 			    scroll.add(lblItem);
 			    scroll.add(listView);
 			    scroll.add(monstrito);
+			   
 			    
 			   }else{
 			   
@@ -316,7 +378,7 @@ var my_timer = new countDown(0,30,
 		},
 		function() {
 			activityIndicator.show();
-			Titanium.API.imagen="imagen1.png";
+			
 			Titanium.API.incorrecta = "Se te acabo el tiempo, Sigue intentado.";
 			  url4='http://productosalpha.com.pe/webservice/intentos.php';
 					    var params4 = {

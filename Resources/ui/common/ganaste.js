@@ -48,6 +48,7 @@ function ganaste(){
 		width:200,
 		height:46,
 		zIndex:12,
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 	});
 	
@@ -59,6 +60,7 @@ function ganaste(){
 		height:70,
 		top:301,
 		zIndex:11,
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 		
 		
@@ -113,7 +115,7 @@ function ganaste(){
   	color:'#ffffff',
   	zIndex:101,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  	font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   	
   });
    btnSalir = Ti.UI.createButton({
@@ -122,11 +124,11 @@ function ganaste(){
   	right:5,
   	width:150,
   	height: 40,
-  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER                                                                                   ,
+  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER ,                                                                                  
   	color:'#ffffff',
   	zIndex:102,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  	font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   });
   
   	var style;
@@ -139,8 +141,8 @@ else {
 }	
 var activityIndicator = Ti.UI.createActivityIndicator({
   color: 'black',
-  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
-  message: 'Abriendo...',
+ font:{fontFamily:'MYRIADPRO-BOLD',fontSize:20},
+  message: 'Cargando...',
   style:style,
    backgroundColor : '#000000',
      height:"100%",

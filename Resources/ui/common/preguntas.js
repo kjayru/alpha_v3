@@ -1,6 +1,3 @@
-
-
-
 function preguntas(){
 		var scroll = Ti.UI.createScrollView({
 		top:1,
@@ -31,14 +28,14 @@ function preguntas(){
 	var logoFooter = Ti.UI.createView({
 		backgroundImage:"/assets/logofooter.png",
 		zIndex:10,
-		top:575,
+		top:505,
 		width:100,
 		height:30,
 		
 	});
 	
 	var logoBottom = Ti.UI.createLabel({
-		top: 610,
+		top: 540,
 		width:70,
 		height:27,
 		left:20,
@@ -70,8 +67,8 @@ else {
 }	
 var activityIndicator = Ti.UI.createActivityIndicator({
   color: 'black',
-  font: {fontFamily:'Helvetica Neue', fontSize:20, fontWeight:'bold'},
-  message: 'Abriendo...',
+  font: {fontFamily:'MYRIADPRO-BOLD', fontSize:20, fontWeight:'bold'},
+  message: 'Cargando...',
   style:style,
    backgroundColor : '#000000',
      height:"100%",
@@ -140,9 +137,10 @@ activityIndicator.show();
 								    touchEnabled: true,
 								    height:Ti.UI.SIZE,
 								    rowIndex:i,
-								    backgroundColor:'#103242'
+								    backgroundColor:'#0d3245',
+								    
 								     // custom property, useful for determining the row during events
-							     /*properties: {
+							     properties: {
 							            itemId    : tasks[i].id,
 							            title     : tasks[i].name,
 							            value     : tasks[i].value,
@@ -156,16 +154,27 @@ activityIndicator.show();
 							            width     :'100%',
 							            right     :0,
 							            type : 'Ti.UI.Label'
-							        }*/
+							        }
 							    });
 							    var labelUserName = Ti.UI.createLabel({
 								    color:'#ffffff',
-								    font:{fontFamily:'Arial',fontSize:14, fontWeight:'bold'},
+								  
 								    text:tasks[i].name,
 								    left:10, top: 6,
-								    width:200, height: 70
+								    width:194, height: 70,
+								    font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14}
 								  });
-								  row.add(labelUserName);								 
+								  
+								  var marcador = Ti.UI.createImageView({
+								  	image:"/assets/marcador.png",
+								  	top:1,
+								  	right:1,
+								  	width:15,
+								  	height:15,
+								  	zIndex:10
+								  });
+								  row.add(labelUserName);	
+								  row.add(marcador);							 
 							      dataTable.push(row);							        
 							   }							
 						/*	var listView = Ti.UI.createListView({
@@ -185,10 +194,10 @@ activityIndicator.show();
 						  right:35
 						});
 
-						listView.addEventListener('itemclick', function(e){
+						listView.addEventListener('click', function(e){
 					    activityIndicator.show();	
 							
-					    var item = section.getItemAt(e.itemIndex);
+					    var item = e.rowData;
 						
 					    Titanium.API.itemId     = item.properties.itemId;
 					    Titanium.API.value      = item.properties.value;
@@ -196,7 +205,7 @@ activityIndicator.show();
 					    Titanium.API.incorrecta = item.properties.incorrecta;
 					    Titanium.API.imagen     = item.properties.imagen;
 					    
-					    section.updateItemAt(e.itemIndex, item);
+					  
 					  if(item.properties.rpta===item.properties.value){  
 					 
 					  ///enviamos consulta de registro en tbl.registro y tbl.estado	 
@@ -265,20 +274,22 @@ activityIndicator.show();
 							
 						});
 			         var lblTexto = Ti.UI.createLabel({
-							width:'270',
+							width:'260',
 							left:5,
 							top:5,
 							bottom:5,
 							right:5,	
+							 font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:14},
 							text:getdata.pregunta,
-							color:'#343a36'
+							color:'#343a36',
+							height:Ti.UI.SIZE
 							
 						});
 						var monstrito= Ti.UI.createView({
 							backgroundImage:'http://productosalpha.com.pe/webservice/img/'+Titanium.API.gl_imagen,
 							zIndex:10,
 							left:-10,
-							top:160,
+							top:190,
 							width:103,
 							height:143
 						});	

@@ -17,9 +17,9 @@ function bienvenido(){
 		backgroundImage:"/assets/mons4.png",
 		zIndex:10,
 		left:10,
-		top:10,
+		top:60,
 		width:103,
-		height:143,
+		height:103,
 		zIndex:10
 	});
 	var monstrito2 = Ti.UI.createView({
@@ -46,6 +46,7 @@ function bienvenido(){
 		color:'#000000',
 		width:200,
 		height:40,
+		font:{fontFamily:'MYRIADPRO-BOLD',fontSize:13},
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		top:270,
 		zIndex:13	
@@ -80,6 +81,7 @@ function bienvenido(){
 		height:40,
 		color:'#000000',
 		text:'Términos y Condiciones',
+		font:{fontFamily:'MYRIADPRO-REGULAR',fontSize:11},
 		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
 		zIndex:14
 	});
@@ -131,7 +133,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 			if(this.status==200){
 			activityIndicator.hide();
 				if(getdata.estado=="bloque"){
-					alert("Agotaste los intentos por hoy trata mañana..");
+					alert("¡Has llegado al límite de respuestas incorrectas! No te preocupes mañana podrás volver a intentarlo. Recuerda… la práctica hace al maestro");
 				}else{
 					
 					if(getdata.registro=="si"){
@@ -165,7 +167,7 @@ var activityIndicator = Ti.UI.createActivityIndicator({
   	color:'#ffffff',
   	zIndex:101,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   	
   });
    btnSalir = Ti.UI.createButton({
@@ -174,11 +176,11 @@ var activityIndicator = Ti.UI.createActivityIndicator({
   	right:5,
   	width:150,
   	height: 40,
-  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER                                                                                   ,
+  	textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,                                                                                  
   	color:'#ffffff',
   	zIndex:102,
   	bottom:0,
-  	font: {fontFamily:'Helvetica Neue', fontSize:10, fontWeight:'bold'}
+  font:{fontFamily:'MYRIADPRO-BOLD',fontSize:12}
   });
   
  
